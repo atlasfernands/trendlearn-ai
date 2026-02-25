@@ -1,0 +1,30 @@
+name: Atualizar Curso Diariamente
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install
+        run: pip install pytrends openai pandas
+      - name: Run
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python main.py
+      - name: Commit
+        run: |
+          git config --global user.name "TrendBot"
+          git config --global user.email "bot@trendlearn.com"
+          git add index.html
+          git commit -m "Auto-update" || exit 0
+          git push

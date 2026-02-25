@@ -1,0 +1,7 @@
+# Ignore environment variables
+.env
+# Ignore python cache
+__pycache__/
+*.pyc
+# Ignore generation outputs (optional, but good practice if it's dynamic)
+index.html
